@@ -8,18 +8,21 @@ import { Wrapper } from '../components/Wrapper';
 import { useCreatePostMutation } from '../generated/graphql';
 import { createUrqlClient } from '../utils/createUrqlClients';
 import { useRouter } from "next/router"
+import { Layout } from '../components/Layout';
 
 export const CreatePost: React.FC<{}> = ({ }) => {
   const router = useRouter();
   const [, createPost] = useCreatePostMutation()
   return (
-    <Wrapper variant='small'>
+    <Layout variant='small'>
       <Formik
         initialValues={{ title: "", text: "" }}
         onSubmit={async (values) => {
           console.log(values)
-          await createPost({ createPostInput: values })
-          router.push('/')
+          const { error } = await createPost({ createPostInput: values })
+          if (!error) {
+            router.push('/')
+          }
         }}
       >
         {({ isSubmitting }) => (
@@ -49,7 +52,7 @@ export const CreatePost: React.FC<{}> = ({ }) => {
           </Form>
         )}
       </Formik>
-    </Wrapper>
+    </Layout>
   );
 }
 
