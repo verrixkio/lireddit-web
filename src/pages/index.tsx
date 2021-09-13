@@ -8,15 +8,19 @@ import { Link } from "@chakra-ui/layout";
 import NextLink from "next/link"
 
 const Index = () => {
-  const [{ data }] = usePostsQuery()
+  const [{ data }] = usePostsQuery({
+    variables: {
+      limit: 10,
+      cursor: '',
+    },
+  })
   return (
     <Layout>
       <NextLink href="/create-post">
         <Link>Create Post</Link>
       </NextLink>
       <br></br>
-      Here are our posts
-      {!data ? null : data.posts.map(p => <div key={p.id}>{p.title}</div>)}
+      {!data ? (<div>loading posts...</div>) : data.posts.map(p => <div key={p.id}>{p.title}</div>)}
     </Layout>
   )
 }
