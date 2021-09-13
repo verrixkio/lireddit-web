@@ -15,6 +15,7 @@ const Index = () => {
         <Link>Create Post</Link>
       </NextLink>
       <br></br>
+      Here are our posts
       {!data ? null : data.posts.map(p => <div key={p.id}>{p.title}</div>)}
     </Layout>
   )
