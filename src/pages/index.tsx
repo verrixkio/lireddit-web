@@ -4,11 +4,11 @@ import { createUrqlClient } from "../utils/createUrqlClients";
 import { usePostsQuery } from "../generated/graphql";
 import React from "react";
 import { Layout } from "../components/Layout";
-import { Box, Heading, Link, Stack, Text } from "@chakra-ui/layout";
+import { Box, Flex, Heading, Link, Stack, Text } from "@chakra-ui/layout";
 import NextLink from "next/link"
 
 const Index = () => {
-  const [{ data }] = usePostsQuery({
+  const [{ data, fetching }] = usePostsQuery({
     variables: {
       limit: 10,
       cursor: '',
@@ -16,9 +16,12 @@ const Index = () => {
   })
   return (
     <Layout>
-      <NextLink href="/create-post">
-        <Link>Create Post</Link>
-      </NextLink>
+      <Flex align='center'>
+        <Heading>Lireddit</Heading>
+        <NextLink href="/create-post">
+          <Link ml="auto">Create Post</Link>
+        </NextLink>
+      </Flex>
       <br></br>
       {!data ? (
         <div>loading posts...</div>
@@ -27,11 +30,12 @@ const Index = () => {
           {data.posts.map((p) => (
             <Box key={p.id} p={5} shadow="md" borderWidth="1px">
               <Heading fontSize="xl">{p.title}</Heading>
-              <Text mt={4}>{p.text.slice(0, 50)}...</Text>
+              <Text mt={4}>{p.textSnippet}...</Text>
             </Box>
           ))}
         </Stack>
       )}
+
     </Layout>
   )
 }
