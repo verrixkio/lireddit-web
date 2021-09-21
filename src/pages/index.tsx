@@ -6,6 +6,7 @@ import React from "react";
 import { Layout } from "../components/Layout";
 import { Box, Flex, Heading, Link, Stack, Text } from "@chakra-ui/layout";
 import NextLink from "next/link"
+import { Button } from "@chakra-ui/button";
 
 const Index = () => {
   const [{ data, fetching }] = usePostsQuery({
@@ -35,7 +36,7 @@ const Index = () => {
           ))}
         </Stack>
       )}
-
+      <Button>Load more</Button>
     </Layout>
   )
 }
