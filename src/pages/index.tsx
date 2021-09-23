@@ -7,13 +7,12 @@ import { Layout } from "../components/Layout";
 import { Box, Flex, Heading, Link, Stack, Text } from "@chakra-ui/layout";
 import NextLink from "next/link"
 import { Button } from "@chakra-ui/button";
+import { useState } from "react";
 
 const Index = () => {
+  const [variables, setVariables] = useState({ limit: 10, cursor: '' as any, })
   const [{ data, fetching }] = usePostsQuery({
-    variables: {
-      limit: 10,
-      cursor: '',
-    },
+    variables,
   })
 
   if (!fetching && !data) {
@@ -43,7 +42,12 @@ const Index = () => {
       )}
       {data ? (
         <Flex>
-          <Button isLoading={fetching} m="auto" my={4}>Load more</Button>
+          <Button onClick={() => {
+            setVariables({
+              limit: variables.limit,
+              cursor: data.posts[data.posts.length - 1].createdAt,
+            })
+          }} isLoading={fetching} m="auto" my={4}>Load more</Button>
         </Flex>) : null}
     </Layout>
   )
